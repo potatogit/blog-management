@@ -7,11 +7,22 @@
 
 // DOM 加载完再执行
 $(function() {
+    $(".blog-menu .list-group-item").click( function() {
+        var url = $(this).attr("url");
+        $(".blog-menu .list-group-item").removeClass("active");
+        $(this).addClass("active");
 
-	// 搜索
-	$(".menu .list-group-item").click(function() {
-		console($(this).value);
-	});
-	
+        $.ajax({
+            url: url,
+            success: function(data) {
+                $("#rightContainer").html(data);
+            },
+            error: function () {
+                console.log("ajax load menu content error");
+            }
+        })
 
+    });
+
+    $(".blog-menu .list-group-item:first").trigger("click");
 });

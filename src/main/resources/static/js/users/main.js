@@ -94,9 +94,9 @@ $(function() {
         $.ajax({
             url: "/users/" + $(this).attr("userId"),
 			type: "DELETE",
-			beforeSend: function(request) {
-            	request.setRequestHeader(csrfHeader, csrfToken);
-			},
+			// beforeSend: function(request) {
+            	// request.setRequestHeader(csrfHeader, csrfToken);
+			// },
             success: function (data) {
                 if(data.success) {
                 	getUersByName(0, _pageSize);

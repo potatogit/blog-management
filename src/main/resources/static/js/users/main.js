@@ -82,12 +82,12 @@ $(function() {
 
             },
             error:
-                function(XMLHttpRequest, textStatus, errorThrown){
-                    alert(XMLHttpRequest.readyState + XMLHttpRequest.status + XMLHttpRequest.responseText);
+                // function(XMLHttpRequest, textStatus, errorThrown){
+                //     alert(XMLHttpRequest.readyState + XMLHttpRequest.status + XMLHttpRequest.responseText);
+                // }
+				function () {
+                    toastr.error("error!");
                 }
-				// function () {
-                // toastr.error("error!");
-            // }
         });
     });
 
@@ -98,9 +98,9 @@ $(function() {
         $.ajax({
             url: "/users/" + $(this).attr("userId"),
 			type: "DELETE",
-			// beforeSend: function(request) {
-            	// request.setRequestHeader(csrfHeader, csrfToken);
-			// },
+			beforeSend: function(request) {
+            	request.setRequestHeader(csrfHeader, csrfToken);
+			},
             success: function (data) {
                 if(data.success) {
                 	getUsersByName(0, _pageSize);

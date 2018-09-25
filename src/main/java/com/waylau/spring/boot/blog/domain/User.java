@@ -31,7 +31,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Entity
 @Getter
 @Setter
-public class User implements Serializable, UserDetails {
+public class User implements Serializable, UserDetails { // must implements UserDetails due to Spring Security Specification
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -48,12 +48,12 @@ public class User implements Serializable, UserDetails {
     @Column(nullable=false, length = 50, unique = true)
     private String email;
 
-    @NotEmpty(message="账号不能为空")
+    @NotEmpty(message="账号3~20个字符")
     @Size(min=3, max=20)
     @Column(nullable=false, length=20, unique=true)
     private String username;
 
-    @NotEmpty(message="密码不能为空")
+    @NotEmpty(message="密码6个字符以上")
     @Size(min=6, max=100)
     @Column(length=100)
     private String password;
@@ -66,10 +66,10 @@ public class User implements Serializable, UserDetails {
      * 如果你要删除一个实体，但是它有外键无法删除，你就需要这个级联权限了。它会撤销所有相关的外键关联。
      * join user表 和 authority表
      */
-//    @ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
-//    @JoinTable(name="user_authority", joinColumns = @JoinColumn(name="user_id", referencedColumnName = "id"),
-//    inverseJoinColumns = @JoinColumn(name="authority_id", referencedColumnName = "id"))
-//    private List<Authority> authorities;
+    @ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    @JoinTable(name="user_authority", joinColumns = @JoinColumn(name="user_id", referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name="authority_id", referencedColumnName = "id"))
+    private List<Authority> authorities;
 
     protected User() { // JPA 的规范要求无参构造函数；设为 protected 防止直接使用
     }
@@ -84,11 +84,10 @@ public class User implements Serializable, UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         //  需将 List<Authority> 转成 List<SimpleGrantedAuthority>，否则前端拿不到角色列表名称
-//        List<SimpleGrantedAuthority> simpleGrantedAuthorities = this.authorities.stream()
-//                .map(item -> new SimpleGrantedAuthority(item.getAuthority()))
-//                .collect(Collectors.toList());
-//        return simpleGrantedAuthorities;
-        return null;
+        List<SimpleGrantedAuthority> simpleGrantedAuthorities = this.authorities.stream()
+                .map(item -> new SimpleGrantedAuthority(item.getAuthority()))
+                .collect(Collectors.toList());
+        return simpleGrantedAuthorities;
     }
 
     @Override

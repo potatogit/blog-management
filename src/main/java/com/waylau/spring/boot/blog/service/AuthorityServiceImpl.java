@@ -9,7 +9,7 @@ import com.waylau.spring.boot.blog.repository.AuthorityRepository;
 @Service
 public class AuthorityServiceImpl implements AuthorityService {
     @Autowired
-    AuthorityRepository authorityRepository;
+    private AuthorityRepository authorityRepository;
 
     @Override
     public Authority getAuthorityById(Long id) {

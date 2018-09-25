@@ -73,9 +73,8 @@ public class UserController {
 	@PostMapping
 	public ResponseEntity<Response> create(User user, Long authorityId) {
 		List<Authority> authorities = new ArrayList<>();
-//		authorities.add(authorityService.getAuthorityById(authorityId));
-//		authorities.add(new Authority());
-//		user.setAuthorities(authorities);
+		authorities.add(authorityService.getAuthorityById(authorityId));
+		user.setAuthorities(authorities);
 
 		if(user.getId() == null) {
 			user.setEncodePassword(user.getPassword());

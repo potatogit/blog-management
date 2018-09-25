@@ -13,7 +13,7 @@ $(function() {
 	var _pageSize; // 存储用于搜索
 	
 	// 根据用户名、页面索引、页面大小获取用户列表
-	function getUersByName(pageIndex, pageSize) {
+	function getUsersByName(pageIndex, pageSize) {
 		 $.ajax({ 
 			 url: "/users", 
 			 contentType : 'application/json',
@@ -57,7 +57,7 @@ $(function() {
 
     $("#rightContainer").on("click", ".blog-edit-user", function () {
         $.ajax({
-            url: "/users/edit" + $(this).attr("userId"),
+            url: "/users/edit/" + $(this).attr("userId"),
             success: function (data) {
                 $("#userFormContainer").html(data);
             },
@@ -75,15 +75,19 @@ $(function() {
             success: function (data) {
                 $("#userForm")[0].reset();
                 if(data.success) {
-                	getUersByName(0, _pageSize);
+                	getUsersByName(0, _pageSize);
 				} else {
                 	toastr.error(data.message);
 				}
 
             },
-            error: function () {
-                toastr.error("error!");
-            }
+            error:
+                function(XMLHttpRequest, textStatus, errorThrown){
+                    alert(XMLHttpRequest.readyState + XMLHttpRequest.status + XMLHttpRequest.responseText);
+                }
+				// function () {
+                // toastr.error("error!");
+            // }
         });
     });
 
@@ -99,7 +103,7 @@ $(function() {
 			// },
             success: function (data) {
                 if(data.success) {
-                	getUersByName(0, _pageSize);
+                	getUsersByName(0, _pageSize);
 				} else {
                 	toastr.error(data.message);
 				}

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -39,7 +40,7 @@ import com.waylau.spring.boot.blog.vo.Response;
  */
 @RestController
 @RequestMapping("/users")
-@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 public class UserController {
 
     @Autowired
@@ -72,8 +73,9 @@ public class UserController {
 	@PostMapping
 	public ResponseEntity<Response> create(User user, Long authorityId) {
 		List<Authority> authorities = new ArrayList<>();
-		authorities.add(authorityService.getAuthorityById(authorityId));
-		user.setAuthorities(authorities);
+//		authorities.add(authorityService.getAuthorityById(authorityId));
+//		authorities.add(new Authority());
+//		user.setAuthorities(authorities);
 
 		if(user.getId() == null) {
 			user.setEncodePassword(user.getPassword());
@@ -94,7 +96,6 @@ public class UserController {
 		}
 		return ResponseEntity.ok().body(new Response(true, "处理成功", user));
 	}
-
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Response> delete(@PathVariable("id") Long id, Model model) {
 		try {

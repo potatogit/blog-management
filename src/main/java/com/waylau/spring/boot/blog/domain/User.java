@@ -66,10 +66,10 @@ public class User implements Serializable, UserDetails {
      * 如果你要删除一个实体，但是它有外键无法删除，你就需要这个级联权限了。它会撤销所有相关的外键关联。
      * join user表 和 authority表
      */
-    @ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
-    @JoinTable(name="user_authority", joinColumns = @JoinColumn(name="user_id", referencedColumnName = "id"),
-    inverseJoinColumns = @JoinColumn(name="authority_id", referencedColumnName = "id"))
-    private List<Authority> authorities;
+//    @ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+//    @JoinTable(name="user_authority", joinColumns = @JoinColumn(name="user_id", referencedColumnName = "id"),
+//    inverseJoinColumns = @JoinColumn(name="authority_id", referencedColumnName = "id"))
+//    private List<Authority> authorities;
 
     protected User() { // JPA 的规范要求无参构造函数；设为 protected 防止直接使用
     }
@@ -84,10 +84,11 @@ public class User implements Serializable, UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         //  需将 List<Authority> 转成 List<SimpleGrantedAuthority>，否则前端拿不到角色列表名称
-        List<SimpleGrantedAuthority> simpleGrantedAuthorities = this.authorities.stream()
-                .map(item -> new SimpleGrantedAuthority(item.getAuthority()))
-                .collect(Collectors.toList());
-        return simpleGrantedAuthorities;
+//        List<SimpleGrantedAuthority> simpleGrantedAuthorities = this.authorities.stream()
+//                .map(item -> new SimpleGrantedAuthority(item.getAuthority()))
+//                .collect(Collectors.toList());
+//        return simpleGrantedAuthorities;
+        return null;
     }
 
     @Override

@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled=true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private static final String KEY = "waylau.com";
+    private static final String KEY = "SOME_WORD";
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -40,15 +40,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/css/**", "/js/**", "/fonts/**", "/index").permitAll()
-                .antMatchers("/h2-console/**").permitAll();
-//                .antMatchers("/admins/**").hasRole("ADMIN")
-//                .and()
-//                .formLogin()
-//                .loginPage("/login").failureUrl("/login-error")
-//                .and().rememberMe().key(KEY)
-//                .and().exceptionHandling().accessDeniedPage("/403");
-//        http.csrf().ignoringAntMatchers("/h2-console/**");
-//        http.headers().frameOptions().sameOrigin();
+                .antMatchers("/h2-console/**").permitAll()
+                .antMatchers("/admins/**").hasRole("ADMIN")
+                .and()
+                .formLogin()
+                .loginPage("/login").failureUrl("/login-error")
+                .and().rememberMe().key(KEY)
+                .and().exceptionHandling().accessDeniedPage("/403");
+        http.csrf().ignoringAntMatchers("/h2-console/**"); // 忽略h2 console的csrf保护
+        http.headers().frameOptions().sameOrigin(); // 允许来自同一来源的(H2控制台的)请求
 //        http.csrf().disable();
     }
 

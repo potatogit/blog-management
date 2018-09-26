@@ -92,6 +92,7 @@ $(function() {
     });
 
     $("#rightContainer").on("click", ".blog-delete-user", function () {
+    	// 启用权限后,请求如果不包含token会报错.因引入相关包,提交表单会自动带token,但ajax发送delete的请求,要手工添加token
     	var csrfToken = $("meta[name='_csrf']").attr("content");
     	var csrfHeader = $("meta[name='_csrf_header']").attr("content");
 

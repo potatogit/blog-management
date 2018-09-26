@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,15 +31,9 @@ import com.waylau.spring.boot.blog.service.UserService;
 import com.waylau.spring.boot.blog.util.ConstraintViolationExceptionHandler;
 import com.waylau.spring.boot.blog.vo.Response;
 
-/**
- * 用户控制器.
- * 
- * @author <a href="https://waylau.com">Way Lau</a>
- * @date 2017年2月26日
- */
 @RestController
 @RequestMapping("/users")
-//@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 public class UserController {
 
     @Autowired

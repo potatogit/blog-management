@@ -3,9 +3,11 @@ package com.waylau.spring.boot.blog.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.waylau.spring.boot.blog.domain.Blog;
+import com.waylau.spring.boot.blog.domain.Comment;
 import com.waylau.spring.boot.blog.domain.User;
 import com.waylau.spring.boot.blog.repository.BlogRepository;
 
@@ -43,7 +45,21 @@ public class BlogServiceImpl implements BlogService {
 
     @Override public void readingIncrease(Long id) {
         Blog blog = blogRepository.findOne(id);
-        blog.setReading(blog.getReading() + 1);
+        blog.setReadingSize(blog.getReadingSize() + 1);
+        blogRepository.save(blog);
+    }
+
+    @Override public Blog createComment(Long blogId, String commentContent) {
+        Blog blog = blogRepository.findOne(blogId);
+        User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Comment comment = new Comment(user, commentContent);
+        blog.addComment(comment);
+        return blogRepository.save(blog);
+    }
+
+    @Override public void removeComment(Long blogId, Long commentId) {
+        Blog blog = blogRepository.findOne(blogId);
+        blog.removeComment(commentId);
         blogRepository.save(blog);
     }
 }

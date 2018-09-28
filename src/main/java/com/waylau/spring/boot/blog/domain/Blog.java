@@ -2,6 +2,7 @@ package com.waylau.spring.boot.blog.domain;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -12,7 +13,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Size;
 
@@ -59,21 +62,26 @@ public class Blog implements Serializable {
     private String htmlContent;
 
     @OneToOne(cascade=CascadeType.DETACH, fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="user_id") // 会在表中增加名为user_id的一列,作为一个外键
     private User user;
 
     @Column(nullable = false)
     @CreationTimestamp
     private Timestamp createTime;
 
-    @Column(name="reading")
-    private Long reading = 0L;
+    @Column(name="readingSize")
+    private Integer readingSize = 0;
 
-    @Column(name = "comments")
-    private Long comments = 0L;
+    @Column(name = "commentSize")
+    private Integer commentSize = 0;
 
-    @Column(name = "likes")
-    private Long likes = 0L;
+    @Column(name = "likeSize")
+    private Integer likeSize = 0;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name="blog_comment", joinColumns = @JoinColumn(name="blog_id", referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name="comment_id", referencedColumnName = "id")) // 会新建一张表,包含blog_id,comment_id两列
+    private List<Comment> comments;
 
     protected Blog() {}
 
@@ -86,6 +94,16 @@ public class Blog implements Serializable {
     public void setContent(String content) {
         this.content = content;
         this.htmlContent = Processor.process(content);
+    }
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
+        this.commentSize = this.comments.size();
+    }
+
+    public void removeComment(Long commentId) {
+        this.comments.removeIf(item -> item.getId().equals(commentId));
+        this.commentSize = this.comments.size();
     }
 
 }

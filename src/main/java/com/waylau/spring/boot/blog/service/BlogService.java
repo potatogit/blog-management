@@ -20,4 +20,8 @@ public interface BlogService {
     Page<Blog> listBlogsByTitleLikeAndSort(User user, String title, Pageable pageable);
 
     void readingIncrease(Long id);
+
+    Blog createComment(Long blogId, String commentContent);
+
+    void removeComment(Long blogId, Long commentId);
 }

@@ -7,7 +7,6 @@ import javax.validation.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,6 +22,7 @@ import com.waylau.spring.boot.blog.domain.User;
 import com.waylau.spring.boot.blog.service.BlogService;
 import com.waylau.spring.boot.blog.service.CommentService;
 import com.waylau.spring.boot.blog.util.ConstraintViolationExceptionHandler;
+import com.waylau.spring.boot.blog.util.ControllerHelper;
 import com.waylau.spring.boot.blog.vo.Response;
 
 @Controller
@@ -40,14 +40,7 @@ public class CommentController {
         List<Comment> comments = blog.getComments();
 
         // 判断操作用户是否是评论的所有者
-        String commentOwner = getCurrentUserName();
-//        if (SecurityContextHolder.getContext().getAuthentication() !=null && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
-//                &&  !SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString().equals("anonymousUser")) {
-//            User principal = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//            if (principal !=null) {
-//                commentOwner = principal.getUsername();
-//            }
-//        }
+        String commentOwner = ControllerHelper.getCurrentUserName();
 
         model.addAttribute("commentOwner", commentOwner);
         model.addAttribute("comments", comments);
@@ -71,7 +64,7 @@ public class CommentController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Response> deleteComment(@PathVariable("id") Long id, Long blogId) {
         User user = commentService.getCommentById(id).getUser();
-        String currentUserName = getCurrentUserName();
+        String currentUserName = ControllerHelper.getCurrentUserName();
         boolean isOwner = user.getUsername().equals(currentUserName);
 
         if(!isOwner) {
@@ -89,15 +82,4 @@ public class CommentController {
         return ResponseEntity.ok().body(new Response(true, "处理成功", null));
     }
 
-    public String getCurrentUserName() {
-        String currentUserName = "";
-        if (SecurityContextHolder.getContext().getAuthentication() !=null && SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
-                &&  !SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString().equals("anonymousUser")) {
-            User principal = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if (principal !=null) {
-                currentUserName = principal.getUsername();
-            }
-        }
-        return currentUserName;
-    }
 }

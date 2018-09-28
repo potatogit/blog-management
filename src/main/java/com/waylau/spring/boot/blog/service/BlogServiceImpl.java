@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.waylau.spring.boot.blog.domain.Blog;
 import com.waylau.spring.boot.blog.domain.Comment;
 import com.waylau.spring.boot.blog.domain.User;
+import com.waylau.spring.boot.blog.domain.Vote;
 import com.waylau.spring.boot.blog.repository.BlogRepository;
 
 @Service
@@ -60,6 +61,23 @@ public class BlogServiceImpl implements BlogService {
     @Override public void removeComment(Long blogId, Long commentId) {
         Blog blog = blogRepository.findOne(blogId);
         blog.removeComment(commentId);
+        blogRepository.save(blog);
+    }
+
+    @Override public Blog createVote(Long blogId) {
+        Blog blog = blogRepository.findOne(blogId);
+        User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Vote vote = new Vote(user);
+        boolean isExisted = blog.addVote(vote);
+        if(isExisted) {
+            throw new IllegalArgumentException("该用户已经点过赞");
+        }
+        return blogRepository.save(blog);
+    }
+
+    @Override public void removeVote(Long blogId, Long voteId) {
+        Blog blog = blogRepository.findOne(blogId);
+        blog.removeVote(voteId);
         blogRepository.save(blog);
     }
 }

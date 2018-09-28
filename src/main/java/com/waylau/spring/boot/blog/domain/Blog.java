@@ -19,6 +19,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Size;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -59,6 +60,7 @@ public class Blog implements Serializable {
     @NotEmpty(message = "摘要不能为空")
     @Size(min=2)
     @Column(nullable = false)
+    @Setter(AccessLevel.NONE) // prohibit to generate setter
     private String htmlContent;
 
     @OneToOne(cascade=CascadeType.DETACH, fetch = FetchType.LAZY)
@@ -67,6 +69,7 @@ public class Blog implements Serializable {
 
     @Column(nullable = false)
     @CreationTimestamp
+    @Setter(AccessLevel.NONE)
     private Timestamp createTime;
 
     @Column(name="readingSize")
@@ -75,13 +78,18 @@ public class Blog implements Serializable {
     @Column(name = "commentSize")
     private Integer commentSize = 0;
 
-    @Column(name = "likeSize")
-    private Integer likeSize = 0;
+    @Column(name = "voteSize")
+    private Integer voteSize = 0;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name="blog_comment", joinColumns = @JoinColumn(name="blog_id", referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(name="comment_id", referencedColumnName = "id")) // 会新建一张表,包含blog_id,comment_id两列
     private List<Comment> comments;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name="blog_vote", joinColumns = @JoinColumn(name="blog_id", referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name="vote_id", referencedColumnName = "id"))
+    private List<Vote> votes;
 
     protected Blog() {}
 
@@ -104,6 +112,21 @@ public class Blog implements Serializable {
     public void removeComment(Long commentId) {
         this.comments.removeIf(item -> item.getId().equals(commentId));
         this.commentSize = this.comments.size();
+    }
+
+    public boolean addVote(Vote vote) {
+        boolean isExisted = this.votes.stream()
+                .map(Vote::getId)
+                .anyMatch(item -> item.equals(vote.getId()));
+        if (!isExisted) {
+            this.votes.add(vote);
+            this.voteSize = this.votes.size();
+        }
+        return isExisted;
+    }
+    public void removeVote(Long voteId) {
+        this.votes.removeIf(item -> item.getId().equals(voteId));
+        this.voteSize = this.votes.size();
     }
 
 }

@@ -24,4 +24,8 @@ public interface BlogService {
     Blog createComment(Long blogId, String commentContent);
 
     void removeComment(Long blogId, Long commentId);
+
+    Blog createVote(Long blogId);
+
+    void removeVote(Long blogId, Long voteId);
 }

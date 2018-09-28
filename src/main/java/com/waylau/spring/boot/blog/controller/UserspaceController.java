@@ -30,9 +30,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.waylau.spring.boot.blog.domain.Blog;
 import com.waylau.spring.boot.blog.domain.User;
+import com.waylau.spring.boot.blog.domain.Vote;
 import com.waylau.spring.boot.blog.service.BlogService;
 import com.waylau.spring.boot.blog.service.UserService;
 import com.waylau.spring.boot.blog.util.ConstraintViolationExceptionHandler;
+import com.waylau.spring.boot.blog.util.ControllerHelper;
 import com.waylau.spring.boot.blog.vo.Response;
 
 @Controller
@@ -142,16 +144,24 @@ public class UserspaceController {
 	@GetMapping("/{username}/blogs/{id}")
 	public String getBlogById(@PathVariable("username") String username, @PathVariable("id") Long id, Model model) {
 		blogService.readingIncrease(id);
-		boolean isBlogOwner = false;
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if(authentication !=null && authentication.isAuthenticated() ) {
-			if(!authentication.getPrincipal().toString().equals("anonymousUser")) {
-				User principal = (User) authentication.getPrincipal();
-				if(principal != null && username.equals(principal.getUsername())) {
-					isBlogOwner = true;
-				}
-			}
-		}
+		String currentUserName = ControllerHelper.getCurrentUserName();
+		boolean isBlogOwner = username.equals(currentUserName);
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		if(authentication !=null && authentication.isAuthenticated() ) {
+//			if(!authentication.getPrincipal().toString().equals("anonymousUser")) {
+//				User principal = (User) authentication.getPrincipal();
+//				if(principal != null && username.equals(principal.getUsername())) {
+//					isBlogOwner = true;
+//				}
+//			}
+//		}
+		Blog blog = blogService.getBlogById(id);
+		Vote vote = blog.getVotes().stream()
+				.filter(item -> item.getUser().getName().equals(currentUserName))
+				.findAny()
+				.orElse(null);
+
+		model.addAttribute("currentVote", vote);
 		model.addAttribute("isBlogOwner", isBlogOwner);
 		model.addAttribute("blogModel", blogService.getBlogById(id));
 		return "/userspace/blog";

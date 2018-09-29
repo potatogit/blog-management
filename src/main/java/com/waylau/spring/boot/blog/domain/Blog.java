@@ -95,6 +95,9 @@ public class Blog implements Serializable {
     @JoinColumn(name="catalog_id")
     private Catalog catalog;
 
+    @Column(name="tags", length = 100)
+    private String tags; // ex, "a,b,c,d"
+
     protected Blog() {}
 
     public Blog( String title, String summary, String content ) {

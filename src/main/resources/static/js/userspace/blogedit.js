@@ -18,6 +18,7 @@ $(function() {
         },
         resize:'vertical',
         localStorage:'md',
+		// TODO change hard code
         imgurl: 'http://localhost:8081',
         base64url: 'http://localhost:8081'
     });
@@ -63,10 +64,13 @@ $(function() {
 		    url: '/u/'+ $(this).attr("userName") + '/blogs/edit',
 		    type: 'POST',
 			contentType: "application/json; charset=utf-8",
-		    data:JSON.stringify({"id":Number($('#id').val()), 
+		    data:JSON.stringify({
+				"id": $('#blogId').val(),
 		    	"title": $('#title').val(), 
 		    	"summary": $('#summary').val() , 
-		    	"content": $('#md').val()}),
+		    	"content": $('#md').val(),
+                "catalog":{"id":$('#catalogSelect').val()},
+			}),
 			beforeSend: function(request) {
 			    request.setRequestHeader(csrfHeader, csrfToken); // 添加  CSRF Token 
 			},

@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.waylau.spring.boot.blog.domain.Blog;
+import com.waylau.spring.boot.blog.domain.Catalog;
 import com.waylau.spring.boot.blog.domain.User;
 
 public interface BlogService {
@@ -28,4 +29,6 @@ public interface BlogService {
     Blog createVote(Long blogId);
 
     void removeVote(Long blogId, Long voteId);
+
+    Page<Blog> listBlogsByCatalog(Catalog catalog, Pageable pageable);
 }

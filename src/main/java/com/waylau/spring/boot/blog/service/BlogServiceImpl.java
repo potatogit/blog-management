@@ -5,8 +5,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.waylau.spring.boot.blog.domain.Blog;
+import com.waylau.spring.boot.blog.domain.Catalog;
 import com.waylau.spring.boot.blog.domain.Comment;
 import com.waylau.spring.boot.blog.domain.User;
 import com.waylau.spring.boot.blog.domain.Vote;
@@ -18,7 +20,10 @@ public class BlogServiceImpl implements BlogService {
     @Autowired
     BlogRepository blogRepository;
 
-    @Override public Blog saveBlog(Blog blog) {
+    @Transactional
+    @Override
+    public Blog saveBlog(Blog blog) {
+
         return blogRepository.save(blog);
     }
 
@@ -79,5 +84,10 @@ public class BlogServiceImpl implements BlogService {
         Blog blog = blogRepository.findOne(blogId);
         blog.removeVote(voteId);
         blogRepository.save(blog);
+    }
+
+    @Override public Page<Blog> listBlogsByCatalog(Catalog catalog, Pageable pageable) {
+        Page<Blog> blogs = blogRepository.findByCatalog(catalog, pageable);
+        return blogs;
     }
 }

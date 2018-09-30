@@ -131,7 +131,7 @@ public class UserspaceController {
 			page = blogService.listBlogsByCatalog(catalog, pageable);
 			order = "";
 		} else if(order.equals("hot")) {
-			Sort sort = new Sort(Sort.Direction.DESC, "reading", "comments", "likes");
+			Sort sort = new Sort(Sort.Direction.DESC, "readingSize", "commentSize", "voteSize");
 			Pageable pageable = new PageRequest(pageIndex, pageSize, sort);
 			page = blogService.listBlogsByTitleLikeAndSort(user, keyword, pageable);
 		} else if (order.equals("new")) {

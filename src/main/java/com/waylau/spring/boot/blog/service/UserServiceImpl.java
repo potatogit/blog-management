@@ -1,5 +1,6 @@
 package com.waylau.spring.boot.blog.service;
 
+import java.util.Collection;
 import java.util.List;
 
 
@@ -52,6 +53,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         String nameExp = "%" + name + "%";
         Page<User> users = userRepository.findByNameLike(nameExp, pageable);
         return users;
+    }
+
+    @Override public List<User> listUsersByUsernames(Collection<String> usernames) {
+        return userRepository.findByUsernameIn(usernames);
     }
 
     @Override

@@ -12,6 +12,7 @@ import com.waylau.spring.boot.blog.domain.Catalog;
 import com.waylau.spring.boot.blog.domain.Comment;
 import com.waylau.spring.boot.blog.domain.User;
 import com.waylau.spring.boot.blog.domain.Vote;
+import com.waylau.spring.boot.blog.domain.es.EsBlog;
 import com.waylau.spring.boot.blog.repository.BlogRepository;
 
 @Service
@@ -20,19 +21,36 @@ public class BlogServiceImpl implements BlogService {
     @Autowired
     BlogRepository blogRepository;
 
+    @Autowired
+    EsBlogService esBlogService;
+
     @Transactional
     @Override
     public Blog saveBlog(Blog blog) {
-
-        return blogRepository.save(blog);
+        boolean isNew = (blog.getId() == null);
+        EsBlog esBlog;
+        Blog savedBlog = blogRepository.save(blog);
+        if(isNew) {
+            esBlog = new EsBlog(savedBlog);
+        } else {
+            esBlog = esBlogService.getEsBlogByBlogId(blog.getId());
+        }
+        esBlogService.updateEsBlog(esBlog);
+        return savedBlog;
     }
 
     @Override public void removeBlog(Long id) {
         blogRepository.delete(id);
+        EsBlog esBlog = esBlogService.getEsBlogByBlogId(id);
+        esBlogService.removeEsBlog(esBlog.getId());
     }
 
     @Override public Blog updateBlog(Blog blog) {
-        return blogRepository.save(blog);
+        Blog savedBlog = blogRepository.save(blog);
+        EsBlog esBlog;
+        esBlog = esBlogService.getEsBlogByBlogId(blog.getId());
+        esBlogService.updateEsBlog(esBlog);
+        return savedBlog;
     }
 
     @Override public Blog getBlogById(Long id) {

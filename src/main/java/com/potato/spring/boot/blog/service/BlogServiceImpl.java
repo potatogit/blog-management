@@ -70,20 +70,24 @@ public class BlogServiceImpl implements BlogService {
     @Override public void readingIncrease(Long id) {
         Blog blog = blogRepository.findOne(id);
         blog.setReadingSize(blog.getReadingSize() + 1);
+        updateEsBlog(id, blog);
         blogRepository.save(blog);
     }
+
 
     @Override public Blog createComment(Long blogId, String commentContent) {
         Blog blog = blogRepository.findOne(blogId);
         User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Comment comment = new Comment(user, commentContent);
         blog.addComment(comment);
+        updateEsBlog(blogId, blog);
         return blogRepository.save(blog);
     }
 
     @Override public void removeComment(Long blogId, Long commentId) {
         Blog blog = blogRepository.findOne(blogId);
         blog.removeComment(commentId);
+        updateEsBlog(blogId, blog);
         blogRepository.save(blog);
     }
 
@@ -95,17 +99,25 @@ public class BlogServiceImpl implements BlogService {
         if(isExisted) {
             throw new IllegalArgumentException("该用户已经点过赞");
         }
+        updateEsBlog(blogId, blog);
         return blogRepository.save(blog);
     }
 
     @Override public void removeVote(Long blogId, Long voteId) {
         Blog blog = blogRepository.findOne(blogId);
         blog.removeVote(voteId);
+        updateEsBlog(blogId, blog);
         blogRepository.save(blog);
     }
 
     @Override public Page<Blog> listBlogsByCatalog(Catalog catalog, Pageable pageable) {
         Page<Blog> blogs = blogRepository.findByCatalog(catalog, pageable);
         return blogs;
+    }
+
+    public void updateEsBlog(Long blogId, Blog blog) {
+        EsBlog esBlog = esBlogService.getEsBlogByBlogId(blogId);
+        esBlog.update(blog);
+        esBlogService.updateEsBlog(esBlog);
     }
 }

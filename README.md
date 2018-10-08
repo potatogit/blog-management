@@ -2,13 +2,20 @@
 
 ### a blog management system based on Spring Boot 
 
-environment information:
+environment information (tech stack):
+* Gradle
+
+* SpringBoot 
+
+* Spring Security
+
+* Thymeleaf
 
 * MySQL 5.7+
 
-* elasticsearch 2.4.4 
+* Elasticsearch 2.4.4 
 
-* mongodb file server  
+* MongoDB file server  
 https://github.com/waylau/mongodb-file-server
 
 how to run:

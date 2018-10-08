@@ -1,6 +1,6 @@
 "use strict";
 //# sourceURL=main.js
-// TODO after upload avatar, left panel should refresh
+
 $(function() {
     var avatarApi;
 
@@ -10,6 +10,7 @@ $(function() {
         $.ajax({
             url: avatarApi,
             success: function(data){
+                $("#avatarFormContainer").html(data);
                 $("#avatarFormContainer").html(data);
             },
             error : function() {
@@ -70,9 +71,9 @@ $(function() {
                     success: function(data){
                         if (data.success) {
                             // 成功后，置换头像图片
-                            $(".blog-avatar").attr("src", data.avatarUrl);
+                            $(".blog-avatar").attr("src", data.body);
                         } else {
-                            toastr.error("error!"+data.message);
+                            toastr.error(data.message);
                         }
 
                     },

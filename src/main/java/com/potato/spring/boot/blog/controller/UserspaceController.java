@@ -163,6 +163,7 @@ public class UserspaceController {
 
 	@GetMapping("/{username}/blogs/edit")
 	public ModelAndView createBlog(@PathVariable("username") String username, Model model) {
+		// TODO if category doesn't exist when submit a new blog, it cannot display in the blog list.
 		User user = (User)userDetailsService.loadUserByUsername(username);
 		List<Catalog> catalogs = catalogService.listCatalogs(user);
 		model.addAttribute("catalogs", catalogs);

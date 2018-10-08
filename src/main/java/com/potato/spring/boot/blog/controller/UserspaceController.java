@@ -195,10 +195,9 @@ public class UserspaceController {
 	@PostMapping("/{username}/blogs/edit")
 	@PreAuthorize("authentication.name.equals(#username)")
 	public ResponseEntity<Response> saveBlog(@PathVariable("username") String username, @RequestBody Blog blog) {
-		// is this a must?
-//		if (blog.getCatalog().getId() == null) {
-//			return ResponseEntity.ok().body(new Response(false,"未选择分类"));
-//		}
+		if (blog.getCatalog().getId() == null) {
+			return ResponseEntity.ok().body(new Response(false,"未选择分类"));
+		}
 		User user = (User)userDetailsService.loadUserByUsername(username);
 		blog.setUser(user);
 		try{

@@ -31,6 +31,7 @@ $(function() {
  
  	$("#uploadImage").click(function() {
 		$.ajax({
+			// TODO change hard code
 		    url: 'http://localhost:8081/upload',
 		    type: 'POST',
 		    cache: false,
@@ -74,7 +75,7 @@ $(function() {
 					// 成功后，重定向
 					 window.location = data.body;
 				 } else {
-					 toastr.error("error!"+data.message);
+					 toastr.error(data.message);
 				 }
 				 
 		     },

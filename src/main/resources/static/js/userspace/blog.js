@@ -71,10 +71,7 @@ $(function() {
             },
             success: function(data){
                 if (data.success) {
-                    // 清空评论框
-                    $('#commentContent').val('');
-                    // 获取评论列表
-                    getCommnet(blogId);
+                    window.location = blogUrl;
                 } else {
                     toastr.error(data.message);
                 }
@@ -98,8 +95,7 @@ $(function() {
             },
             success: function(data){
                 if (data.success) {
-                    // 获取评论列表
-                    getCommnet(blogId);
+                    window.location = blogUrl;
                 } else {
                     toastr.error(data.message);
                 }

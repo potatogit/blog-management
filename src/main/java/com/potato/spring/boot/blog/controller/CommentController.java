@@ -44,13 +44,12 @@ public class CommentController {
 
         model.addAttribute("commentOwner", commentOwner);
         model.addAttribute("comments", comments);
-        return "/userspace/blog :: #mainContainerRepleace";
+        return "/userspace/blog :: #mainContainerReplace";
     }
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<Response> createComment(Long blogId, String commentContent) {
-        // TODO comment number is not updated after new comment is created
         try{
             blogService.createComment(blogId, commentContent);
         } catch (ConstraintViolationException e) { // 单独获取输入验证的失败信息

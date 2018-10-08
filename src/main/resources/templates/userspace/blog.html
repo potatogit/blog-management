@@ -31,7 +31,7 @@
                         <a th:href="'/u/' + ${blogModel.user.username}" class="card-link" th:text="${blogModel.user.username}" ></a> 发表于 [[${#dates.format(blogModel.createTime, 'yyyy-MM-dd HH:mm')}]]
                         	<i class="fa fa-eye" aria-hidden="true">[[${blogModel.readingSize}]]</i>
 		                    <i class="fa fa-heart-o" aria-hidden="true">[[${blogModel.voteSize}]]</i>
-		                    <i class="fa fa-comment-o" aria-hidden="true">[[${blogModel.commentSize}]]</i>
+		                    <i id="" class="fa fa-comment-o" aria-hidden="true">[[${blogModel.commentSize}]]</i>
                          <a  th:if="${isBlogOwner}" th:href="'/u/' + ${blogModel.user.username}+ '/blogs/edit/'+ ${blogModel.id}" class="btn btn-primary float-right">编辑</a>
                          <a href="javascript:void(0)" th:if="${isBlogOwner}" th:attr="blogUrl='/u/' + ${blogModel.user.username} + '/blogs/'+ ${blogModel.id}"class="btn btn-primary float-right blog-delete-blog">删除</a>
                     </div>
@@ -68,7 +68,7 @@
                 </div>
                 <div class="card-block" id="mainContainer">
 
-                    <div class="row" id="mainContainerRepleace" th:each="comment,commentStat : ${comments}" th:object="${comment}">
+                    <div class="row" id="mainContainerReplace" th:each="comment,commentStat : ${comments}" th:object="${comment}">
                         <h2 class="card-title col-lg-1 col-md-2">
 							<span>
 			                  <a  th:href="'/u/'+ *{user.username}" th:title="*{user.username}">

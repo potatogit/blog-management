@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.potato.spring.boot.blog.consts.RoleUser;
 import com.potato.spring.boot.blog.domain.User;
 import com.potato.spring.boot.blog.domain.Authority;
 import com.potato.spring.boot.blog.service.AuthorityService;
@@ -16,9 +17,6 @@ import com.potato.spring.boot.blog.service.UserService;
 
 @Controller
 public class MainController {
-	//TODO change definition place of USER ROLE
-	private static final Long ROLE_USER_AUTHORITY_ID = 2L;
-
 	@Autowired
 	private UserService userService;
 
@@ -55,7 +53,7 @@ public class MainController {
 	@PostMapping("/register")
 	public String registerUser(User user){
 		List<Authority> authorities = new ArrayList<>();
-		authorities.add(authorityService.getAuthorityById(ROLE_USER_AUTHORITY_ID));
+		authorities.add(authorityService.getAuthorityById(RoleUser.ROLE_USER_AUTHORITY_ID.value()));
 		user.setAuthorities(authorities);
 		userService.saveUser(user);
 		return "redirect:/login";

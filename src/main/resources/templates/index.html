@@ -67,7 +67,7 @@
                             <div class="col-lg-12">
 								<span th:each="user: ${users}" th:object="${user}">
 				                  <a th:href="'/u/' + *{username}" th:title="*{username}">
-				                    <img src="/images/avatar-defualt.jpg" th:src="*{avatar} == null ? '/images/avatar-defualt.jpg' : *{avatar}" class="blog-avatar-50">
+				                    <img th:src="*{avatar} == null ? '/images/avatar-default.jpg' : *{avatar}" class="blog-avatar-50">
 				                  </a>
 				                </span>
                             </div>

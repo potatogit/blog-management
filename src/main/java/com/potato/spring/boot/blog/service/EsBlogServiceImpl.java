@@ -108,7 +108,6 @@ public class EsBlogServiceImpl implements EsBlogService {
                 .withSearchType(SearchType.QUERY_THEN_FETCH)
                 .withIndices("blog")
                 .withTypes("blog")
-                // TODO why users instead of user
                 .addAggregation(AggregationBuilders.terms("users").field("username").order(Terms.Order.count(false)).size(12))
                 .build();
         Aggregations aggregations = elasticsearchTemplate.query(searchQuery, response -> response.getAggregations());

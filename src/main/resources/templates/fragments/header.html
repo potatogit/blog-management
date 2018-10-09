@@ -67,31 +67,33 @@
                 </li>
                 <form class="form-inline mt-2 mt-md-0">
                     <input class="form-control mx-sm-2" type="text" placeholder="搜索" id="indexkeyword" th:value="${keyword}">
-                    <a href="javascript:void(0)" class="btn btn-outline-secondary btn-sm my-2 my-sm-0" id="indexsearch"><i class="fa fa-search"
-                                                                                                                    aria-hidden="true"></i></a>
+                    <!--<a href="javascript:void(0)" class="btn btn-light btn-sm my-2 my-sm-0" id="indexsearch"><i class="fa fa-search"-->
+                                                                                                                    <!--aria-hidden="true"></i></a>-->
+                    <button type="button" class="btn btn-light" id="indexsearch"><i class="fa fa-search"
+                                                                     aria-hidden="true"></i></button>
                 </form>
 
             </ul>
             <div sec:authorize="isAuthenticated()"  class="row" >
-                <div class="dropdown">
-                    <a class=" dropdown-toggle" th:href="@{'/u/' + ${#authentication.name}}" data-toggle="dropdown"><span sec:authentication="name"></span></a>
+                <div class="dropdown ">
+                    <a class="login-user dropdown-toggle" th:href="@{'/u/' + ${#authentication.name}}" data-toggle="dropdown"><span sec:authentication="name"></span></a>
                     <div class="dropdown-menu" >
                         <a class=" dropdown-item" th:href="@{'/u/' + ${#authentication.name}}">个人主页</a>
                         <a class="dropdown-item" th:href="@{'/u/' + ${#authentication.name}} + '/profile'" >个人设置</a>
                     </div>
                 </div>
                 <div>
-                    <a th:href="'/u/' + ${#authentication.name} + '/blogs/edit'" class="btn btn-outline-success my-2 my-sm-0">写博客</a>
+                    <a th:href="'/u/' + ${#authentication.name} + '/blogs/edit'" type="submit" class="btn my-2 my-sm-0 write-blog">写博客</a>
                 </div>
 
                 <form action="/logout" th:action="@{/logout}" method="post">
-                    <input class="btn btn-outline-success " type="submit" value="退出">
+                    <input class="btn my-2 my-sm-0 logout" type="submit" value="退出">
                 </form>
             </div>
 
-            <div sec:authorize="isAnonymous()">
-                <a href="/login" class="btn btn-outline-success my-2 my-sm-0" type="submit">登录</a>
-                <a href="/register" class="btn btn-outline-success my-2 my-sm-0" type="submit">注册</a>
+            <div sec:authorize="isAnonymous()" class="user-login-div">
+                <a href="/login" class="btn my-2 my-sm-0" type="submit">登录</a>
+                <a href="/register" class="btn my-2 my-sm-0" type="submit">注册</a>
             </div>
 
         </div>

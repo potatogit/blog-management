@@ -32,7 +32,7 @@ $(function() {
  	$("#uploadImage").click(function() {
 		$.ajax({
 			// TODO change hard code
-		    url: 'http://localhost:8081/upload',
+		    url: 'http://localhost:8082/upload',
 		    type: 'POST',
 		    cache: false,
 		    data: new FormData($('#uploadformid')[0]),

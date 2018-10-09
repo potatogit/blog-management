@@ -1,3 +1,22 @@
+/* header */
+.navbar-brand {
+    margin-top: -1px !important;
+}
+.navbar-inverse {
+    background-color: #f44444 !important;
+}
+/*li.nav-item {*/
+    /*padding-top: 4px;*/
+/*}*/
+a.nav-link {
+    color: white;
+}
+/*#indexkeyword {*/
+    /*height: 28px;*/
+    /*margin-top: 2px;*/
+    /*margin-left: 8px;*/
+/*}*/
+
 /* Footer */
 .blog-footer {
     bottom: 0;

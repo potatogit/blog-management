@@ -1,6 +1,6 @@
-# blog-management
+# The Jutty's
 
-### a blog management system based on Spring Boot 
+### The Jutty's is a blog management system based on Spring Boot 
 
 environment information (tech stack):
 * Gradle

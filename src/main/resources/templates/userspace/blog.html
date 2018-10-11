@@ -11,7 +11,7 @@
     <div class="row">
 
         <!-- Blog Entries Column -->
-        <div class="col-md-8">
+        <div class="col-md-9">
 
             <!-- Blog Post -->
             <div class="card mb-4">
@@ -32,8 +32,10 @@
                         	<i class="fa fa-eye" aria-hidden="true">[[${blogModel.readingSize}]]</i>
 		                    <i class="fa fa-heart-o" aria-hidden="true">[[${blogModel.voteSize}]]</i>
 		                    <i id="" class="fa fa-comment-o" aria-hidden="true">[[${blogModel.commentSize}]]</i>
-                         <a  th:if="${isBlogOwner}" th:href="'/u/' + ${blogModel.user.username}+ '/blogs/edit/'+ ${blogModel.id}" class="btn btn-primary float-right">编辑</a>
-                         <a href="javascript:void(0)" th:if="${isBlogOwner}" th:attr="blogUrl='/u/' + ${blogModel.user.username} + '/blogs/'+ ${blogModel.id}"class="btn btn-primary float-right blog-delete-blog">删除</a>
+                        <button class="btn-sm btn-primary" th:if="${currentVote} == null" id="submitVote">点赞</button>
+                        <button class="btn-sm btn-primary" th:if="${currentVote}" th:attr="voteId=${currentVote.id}" id="cancelVote">取消点赞</button>
+                         <a  th:if="${isBlogOwner}" th:href="'/u/' + ${blogModel.user.username}+ '/blogs/edit/'+ ${blogModel.id}" class="btn-primary btn-sm float-right">编辑</a>
+                         <a href="javascript:void(0)" th:if="${isBlogOwner}" th:attr="blogUrl='/u/' + ${blogModel.user.username} + '/blogs/'+ ${blogModel.id}"class="btn-danger btn-sm float-right blog-delete-blog">删除</a>
                     </div>
                     <hr>
                     <article class="post-content" th:utext="${blogModel.htmlContent}">
@@ -44,27 +46,26 @@
 
 
                 <div class="card-block">
-                    <h5>分类：<a th:href="'/u/'+${blogModel.user.username} + '/blogs?catalog='+${blogModel.catalog.id} " th:text="${blogModel.catalog.name}">
+                    <p>分类：<a th:href="'/u/'+${blogModel.user.username} + '/blogs?catalog='+${blogModel.catalog.id} " th:text="${blogModel.catalog.name}">
                         Spring Data
-                    </a></h5>
+                    </a></p>
 
-                    <h5 >标签：
+                    <p>标签：
                         <a th:each="tag : ${#strings.arraySplit(blogModel.tags , ',')}" th:href="'/u/' + ${blogModel.user.username}  + '/blogs?keyword='+ ${tag}"> <span class="badge badge-default" th:text="${tag}"></span></a>
-                    </h5>
+                    </p>
                 </div>
 
 
                 <div class="card-block">
 
-                    <h5>评论：</h5>
+                    <p>评论：</p>
                     <div class="row">
                         <div class="col-lg-12">
                             <textarea class="blog-textarea" placeholder="看帖需留言~" id="commentContent"></textarea>
                         </div>
                     </div>
-                    <button class="btn btn-primary float-right" id="submitComment">发表评论</button>
-                    <button class="btn btn-primary float-right" th:if="${currentVote} == null" id="submitVote">点赞</button>
-                    <button class="btn btn-primary float-right" th:if="${currentVote}" th:attr="voteId=${currentVote.id}" id="cancelVote">取消点赞</button>
+                    <button class="btn-sm btn-primary" id="submitComment">发表评论</button>
+
                 </div>
                 <div class="card-block" id="mainContainer">
 
@@ -89,7 +90,7 @@
         </div>
 
         <!-- 右侧栏目 -->
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div>
                 <!-- 文章目录 -->
                 <div class="card ">

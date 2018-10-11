@@ -64,20 +64,21 @@
 
 .blog-avatar-230 {
     border-radius: 10%;
-    height: 230px;
-    width: 230px;
+    height: 180px;
+    width: 180px;
 }
 
 /* blog commit */
 .blog-textarea {
     border-radius: 0;
-    margin-bottom: 10px;
+    /*margin-bottom: 10px;*/
     width: 100%;
     height: 80px;
     padding: 5px 10px;
     border: 1px solid #ddd;
     border-radius: 3px;
     resize: none;
+    margin-top: 8px;
 }
 
 .blog-label-success {
@@ -115,5 +116,38 @@
 }
 
 #md {
-	height:400px;	
+	height:600px;
+}
+
+/* register page, login page */
+.register-form {
+    margin-left: -12px;
+}
+.form-submit-btn {
+    margin-left: -2px;
+}
+
+/* u.html */
+h5.card-header {
+    font-size: 16px;
+}
+.blog-list-group-item {
+    padding: 4px 8px 4px 16px;
+}
+
+/* blogedit.html */
+#uploadImage {
+    margin-left: 0px;
+    margin-top: 4px;
+}
+#submitBlog {
+    margin-left: 0px;
+}
+
+/* blog view page */
+.post-content {
+    min-height: 350px;
+}
+#submitComment {
+    margin-left: 0px;
 }

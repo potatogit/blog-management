@@ -24,17 +24,17 @@
         <div class="col-md-8">
 
             <!-- Blog Post -->
-            <div class="card mb-4">
-                <div class="card-block" th:object="${blogModel.blog}">
+            <div class="mb-4">
+                <div class="" th:object="${blogModel.blog}">
                 	<input type="hidden" name="id" th:value="*{id}">
                     <input  type="text" class="form-control" placeholder="请填写博客标题"  id="title" name="title"  th:value="*{title}"  maxlength="50">
 					
                     <textarea class="blog-textarea" placeholder="请填写博客摘要"  id="summary" name="summary"  th:text="*{summary}" maxlength="300"></textarea>
 
-                    <hr>
+                    <!--<hr>-->
                     <textarea id="md" data-provide="markdown" data-hidden-buttons="cmdImage" name="content"  th:text="*{content}"></textarea>
 
-                    <hr>
+                    <!--<hr>-->
                 </div>
 
             </div>
@@ -54,8 +54,9 @@
 				                
 				                    <form  enctype="multipart/form-data"  id="uploadformid"  >
 				                    <input type="file" name="file" accept="image/png,image/gif,image/jpeg" id="file">
-				                    <button class="btn btn-primary float-right"  type="button" id="uploadImage" >插入</button>
-								        
+                                    <div>
+                                        <button class="btn btn-primary" type="button" id="uploadImage" >插入</button>
+                                    </div>
 								    </form>
  
 			                 </div>
@@ -85,7 +86,7 @@
                     </div>
                     <div class="row mt-1">
                         <div class="col-lg-12">
-                            <button class="btn btn-primary float-right" id="submitBlog"
+                            <button class="btn btn-primary" id="submitBlog"
                                     th:attr="userName=${#authentication.name}">发布
                             </button>
                         </div>
